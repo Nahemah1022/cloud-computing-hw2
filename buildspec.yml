@@ -4,9 +4,14 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - mkdir build-output
+      - cp -R src/frontend/ build-output
   post_build:
     commands:
       - echo Build completed on `date`
+      - mv build-output/**/* ./
+      - mv build-output/* ./
+      - rm -R build-output *.yml README* .git*
 artifacts:
   files:
-    - src/frontend/*
+    - "**/*"

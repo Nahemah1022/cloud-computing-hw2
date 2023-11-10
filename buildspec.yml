@@ -11,7 +11,7 @@ phases:
       - echo Build completed on `date`
       - mv build-output/**/* ./
       - mv build-output/* ./
-      - rm -R build-output *.yml README* .git*
+      - rm -Rf build-output *.yml README*
 artifacts:
   files:
     - "**/*"

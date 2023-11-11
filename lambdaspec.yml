@@ -9,7 +9,7 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - rm -Rf src *.yml README*
+      - rm -Rf src README*
 artifacts:
   files:
     - "**/*"

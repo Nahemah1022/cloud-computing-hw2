@@ -1,0 +1,18 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Build started on `date`
+      - mkdir build-output
+      - cp -R src/lambda/lf1/ build-output
+      - pip install -r src/lambda/lf1/requirement.txt --target ./src/lambda/lf1
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - mv build-output/**/* ./
+      - mv build-output/* ./
+      - rm -Rf src build-output *.yml README*
+artifacts:
+  files:
+    - "**/*"

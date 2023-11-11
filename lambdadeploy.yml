@@ -6,6 +6,7 @@ phases:
       - echo Build started on `date`
       - pwd
       - ls
+      - unzip -l deployment.zip
 artifacts:
   files:
     - "**/*"

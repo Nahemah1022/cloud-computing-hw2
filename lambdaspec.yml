@@ -9,8 +9,8 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - mv build-output/**/* ./
-      - mv build-output/* ./
+      - mv ./src/lambda/lf1/**/* ./
+      - mv ./src/lambda/lf1/* ./
       - rm -Rf src *.yml README*
 artifacts:
   files:

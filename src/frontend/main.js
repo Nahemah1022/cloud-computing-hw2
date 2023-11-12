@@ -1,12 +1,12 @@
 var encoded = null;
-var fileExt = null;
+var filename = null;
 
 window.onload = function () {
     $("#upload_files").change(function(e) {
         for (var i = 0; i < e.originalEvent.srcElement.files.length; i++) {
     
             var file = e.originalEvent.srcElement.files[i];
-            fileExt = file.name.split(".").pop();
+            filename = file.name
     
             var img = document.createElement("img"); // create an image element
             var reader = new FileReader();
@@ -25,6 +25,7 @@ window.onload = function () {
     $("#submit_btn").click(function (event) {
         event.preventDefault();
         last_index_quote = encoded.lastIndexOf('"');
+        fileExt = filename.split(".").pop();
         if (fileExt == 'jpg' || fileExt == 'jpeg') {
           encoded = encoded.substring(33, last_index_quote);
         }
@@ -32,10 +33,10 @@ window.onload = function () {
           encoded = encoded.substring(32, last_index_quote);
         }
         console.log(encoded)
-        
-        axios.put("https://zw6zd19ubb.execute-api.us-east-2.amazonaws.com/dev/b2-photo-uploads/test.jpeg", encoded, {
+        var customLabels = $('#custom-labels').val()
+        axios.put(`https://zw6zd19ubb.execute-api.us-east-2.amazonaws.com/dev/b2-photo-uploads/${filename}`, encoded, {
             headers :{
-                'x-amz-meta-customLabels': 'Capoo',
+                'x-amz-meta-customLabels': customLabels
             },
         })
     })

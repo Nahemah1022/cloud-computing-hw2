@@ -5,28 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Outstanding Album</title>
     
+    <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script type="text/javascript" src="main.js"></script>
 </head>
 <body>
+    <h1>Outstanding Album</h1>
     <div class="main">
-        <h1>Outstanding Album</h1>
         <div class="left">
             <h2>Search Photos</h2>
             <div class="search_bar">
                 <input type="text" placeholder="Your Query" id="query_txt">
                 <input type="button" value="Send" id="query_btn">
+                <input type="button" value="Speak" id="speak_btn">
             </div>
             <div class="gallery">
-                <img src="https://b2-photo-uploads.s3.us-east-2.amazonaws.com/uploads/images.png" alt="">
+
             </div>
         </div>
         <div class="right">
             <h2>Upload Photos</h2>
-            <input type="file" placeholder="Your Files" id="upload_files">
-            <input type="text" placeholder="Custom Labels (separate by ',')" id="custom-labels">
-            <input type="button" value="Upload" id="submit_btn">
+            <div class="upload-inputs">
+                <input type="file" placeholder="Your Files" id="upload_files">
+                <input type="text" placeholder="Custom Labels (separate by ',')" id="custom-labels">
+                <input type="button" value="Upload" id="submit_btn">
+            </div>
         </div>
     </div>
 </body>

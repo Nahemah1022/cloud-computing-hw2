@@ -6,7 +6,7 @@ phases:
       - echo Build started on `date`
       - pwd
       - ls
-      - unzip -l deployment.zip
+      - aws lambda update-function-code --zip-file deployment.zip --function-name arn:aws:lambda:us-east-2:601912694676:function:lf1
 artifacts:
   files:
     - "**/*"

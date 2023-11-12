@@ -56,3 +56,8 @@ def insert(document, id):
         refresh = True
     )
     return response
+    
+
+if __name__ == '__main__':
+    results = query('Dutch Freds')
+    print(result)

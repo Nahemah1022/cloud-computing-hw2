@@ -1,0 +1,12 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Build started on `date`
+      - pwd
+      - ls
+      - aws lambda update-function-code --zip-file fileb://deployment.zip --function-name arn:aws:lambda:us-east-2:601912694676:function:lf1
+artifacts:
+  files:
+    - "**/*"

@@ -1,0 +1,16 @@
+version: 0.2
+
+phases:
+  build:
+    commands:
+      - echo Build started on `date`
+      - pip install -r ./src/lambda/lf1/requirement.txt --target ./src/lambda/lf1
+      - cd ./src/lambda/lf1
+      - zip -r ../../../deployment.zip .
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - rm -Rf src README* .git*
+artifacts:
+  files:
+    - "**/*"

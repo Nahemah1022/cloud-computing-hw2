@@ -1,0 +1,705 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Metadata:
+  Generator: "former2"
+Description: ""
+Resources:
+  # IAMRole:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: "codebuild-front-react-app-service-role"
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/CodeBuildBasePolicy-${CodeBuildProject3}-${AWS::Region}"
+
+  # IAMRole2:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: !Sub "codebuild-${CodeBuildProject2}-service-role"
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/CodeBuildBasePolicy-${CodeBuildProject2}-${AWS::Region}"
+
+  # IAMRole3:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: !Ref CodeBuildProject
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - "arn:aws:iam::aws:policy/AWSLambda_FullAccess"
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/CodeBuildBasePolicy-${CodeBuildProject}-${AWS::Region}"
+
+  # IAMRole4:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: !Sub "AWSCodePipelineServiceRole-${AWS::Region}-P2"
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/AWSCodePipelineServiceRole-${AWS::Region}-P2"
+
+  # IAMRole5:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: !Sub "AWSCodePipelineServiceRole-${AWS::Region}-P1"
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/AWSCodePipelineServiceRole-${AWS::Region}-P1"
+
+  S3Bucket:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: !Sub "codepipeline-${AWS::Region}-835895367188"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: "AES256"
+            BucketKeyEnabled: false
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: "BucketOwnerEnforced"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+
+  S3Bucket2:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: "b2-photo-uploadsskjhvhoiasc"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: "AES256"
+            BucketKeyEnabled: true
+      NotificationConfiguration:
+        LambdaConfigurations:
+          - Event: "s3:ObjectCreated:*"
+            Filter:
+              S3Key:
+                Rules:
+                  - Name: "Prefix"
+                    Value: "uploads"
+            Function: !GetAtt LambdaFunction.Arn
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: "BucketOwnerEnforced"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+
+  S3Bucket3:
+    Type: "AWS::S3::Bucket"
+    Properties:
+      BucketName: "b1-frontendasdknlvlkdsvm;"
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: "AES256"
+            BucketKeyEnabled: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: "BucketOwnerEnforced"
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: false
+        BlockPublicPolicy: false
+        IgnorePublicAcls: false
+        RestrictPublicBuckets: false
+
+  S3BucketPolicy:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket: !Ref S3Bucket2
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "PublicReadGetObject"
+            Effect: "Allow"
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Sub "arn:aws:s3:::${S3Bucket2}/*"
+
+  S3BucketPolicy2:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket: !Ref S3Bucket3
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Sid: "PublicReadGetObject"
+            Effect: "Allow"
+            Principal: "*"
+            Action: "s3:GetObject"
+            Resource: !Sub "arn:aws:s3:::${S3Bucket3}/*"
+
+  S3BucketPolicy3:
+    Type: "AWS::S3::BucketPolicy"
+    Properties:
+      Bucket: !Ref S3Bucket
+      PolicyDocument:
+        Version: "2012-10-17"
+        Id: "SSEAndSSLPolicy"
+        Statement:
+          - Sid: "DenyUnEncryptedObjectUploads"
+            Effect: "Deny"
+            Principal: "*"
+            Action: "s3:PutObject"
+            Resource: !Sub "arn:aws:s3:::${S3Bucket}/*"
+            Condition:
+              StringNotEquals:
+                "s3:x-amz-server-side-encryption": "aws:kms"
+          - Sid: "DenyInsecureConnections"
+            Effect: "Deny"
+            Principal: "*"
+            Action: "s3:*"
+            Resource: !Sub "arn:aws:s3:::${S3Bucket}/*"
+            Condition:
+              Bool:
+                "aws:SecureTransport": "false"
+
+  LambdaFunction:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Description: ""
+      FunctionName: "lf1"
+      Handler: "lambda_function.lambda_handler"
+      Architectures:
+        - "x86_64"
+      Code:
+        S3Bucket: !Sub "awslambda-${AWS::Region}-tasks"
+        S3Key: !Sub "/snapshots/${AWS::AccountId}/lf1-cf34b408-30f4-4292-9255-98aeae05fb02"
+        S3ObjectVersion: "4rJvfM89M9ZqXqRhKcvhnMw35VB7.45d"
+      MemorySize: 128
+      Role: !Sub "arn:aws:iam::${AWS::AccountId}:role/lf1-role"
+      Runtime: "python3.11"
+      Timeout: 60
+      TracingConfig:
+        Mode: "PassThrough"
+      EphemeralStorage:
+        Size: 512
+
+  LambdaFunction2:
+    Type: "AWS::Lambda::Function"
+    Properties:
+      Description: ""
+      FunctionName: "lf0"
+      Handler: "lambda_function.lambda_handler"
+      Architectures:
+        - "x86_64"
+      Code:
+        S3Bucket: !Sub "awslambda-${AWS::Region}-tasks"
+        S3Key: !Sub "/snapshots/${AWS::AccountId}/lf0-fd782c8a-8058-4e74-889f-e499a3b03e4b"
+        S3ObjectVersion: "WmBBm1ApK73ma5K.SIiRKKfRzWQ2GZpq"
+      MemorySize: 128
+      Role: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/lf0-role-y0z4eaaf"
+      Runtime: "python3.10"
+      Timeout: 5
+      TracingConfig:
+        Mode: "PassThrough"
+      EphemeralStorage:
+        Size: 512
+
+  LambdaPermission:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !GetAtt LambdaFunction2.Arn
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:2v1khryaeb/*/POST/chatbot"
+
+  LambdaPermission2:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !GetAtt LambdaFunction2.Arn
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGatewayRestApi}/*/GET/"
+
+  LambdaPermission3:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !GetAtt LambdaFunction2.Arn
+      Principal: "apigateway.amazonaws.com"
+      SourceArn: !Sub "arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${ApiGatewayRestApi}/*/GET/*"
+
+  LambdaPermission4:
+    Type: "AWS::Lambda::Permission"
+    Properties:
+      Action: "lambda:InvokeFunction"
+      FunctionName: !GetAtt LambdaFunction.Arn
+      Principal: "s3.amazonaws.com"
+      SourceArn: !Sub "arn:aws:s3:::${S3Bucket2}"
+
+  ApiGatewayRestApi:
+    Type: "AWS::ApiGateway::RestApi"
+    Properties:
+      Name: "uploadAPI"
+      ApiKeySourceType: "HEADER"
+      BinaryMediaTypes:
+        - "image/jpeg"
+      EndpointConfiguration:
+        Types:
+          - "REGIONAL"
+
+  ApiGatewayMethod:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      RestApiId: !Ref ApiGatewayRestApi
+      ResourceId: "irdwuc"
+      HttpMethod: "OPTIONS"
+      AuthorizationType: "NONE"
+      ApiKeyRequired: false
+      RequestParameters: {}
+      MethodResponses:
+        - ResponseModels:
+            "application/json": "Empty"
+          ResponseParameters:
+            "method.response.header.Access-Control-Allow-Headers": false
+            "method.response.header.Access-Control-Allow-Methods": false
+            "method.response.header.Access-Control-Allow-Origin": false
+          StatusCode: "200"
+      Integration:
+        CacheNamespace: "irdwuc"
+        IntegrationResponses:
+          - ResponseParameters:
+              "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              "method.response.header.Access-Control-Allow-Methods": "'OPTIONS,PUT'"
+              "method.response.header.Access-Control-Allow-Origin": "'*'"
+            StatusCode: "200"
+        PassthroughBehavior: "WHEN_NO_MATCH"
+        RequestTemplates:
+          "application/json": '{"statusCode": 200}'
+        TimeoutInMillis: 29000
+        Type: "MOCK"
+
+  ApiGatewayMethod2:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      RestApiId: !Ref ApiGatewayRestApi
+      ResourceId: "s7u1ot"
+      HttpMethod: "GET"
+      AuthorizationType: "NONE"
+      ApiKeyRequired: false
+      RequestParameters:
+        "method.request.path.bucket": true
+        "method.request.querystring.myQuery": true
+      MethodResponses:
+        - ResponseModels:
+            "application/json": "Empty"
+          ResponseParameters:
+            "method.response.header.Access-Control-Allow-Origin": false
+          StatusCode: "200"
+      Integration:
+        CacheNamespace: "s7u1ot"
+        ContentHandling: "CONVERT_TO_TEXT"
+        IntegrationHttpMethod: "POST"
+        IntegrationResponses:
+          - ResponseParameters:
+              "method.response.header.Access-Control-Allow-Origin": "'*'"
+            StatusCode: "200"
+        PassthroughBehavior: "WHEN_NO_TEMPLATES"
+        RequestTemplates:
+          "application/json": |
+            ##  See http://docs.aws.amazon.com/apigateway/latest/developerguide/api-gateway-mapping-template-reference.html
+            ##  This template will pass through all parameters including path, querystring, header, stage variables, and context through to the integration endpoint via the body/payload
+            #set($allParams = $input.params())
+            {
+            "body-json" : $input.json('$'),
+            "params" : {
+            #foreach($type in $allParams.keySet())
+                #set($params = $allParams.get($type))
+            "$type" : {
+                #foreach($paramName in $params.keySet())
+                "$paramName" : "$util.escapeJavaScript($params.get($paramName))"
+                    #if($foreach.hasNext),#end
+                #end
+            }
+                #if($foreach.hasNext),#end
+            #end
+            },
+            "stage-variables" : {
+            #foreach($key in $stageVariables.keySet())
+            "$key" : "$util.escapeJavaScript($stageVariables.get($key))"
+                #if($foreach.hasNext),#end
+            #end
+            },
+            "context" : {
+                "account-id" : "$context.identity.accountId",
+                "api-id" : "$context.apiId",
+                "api-key" : "$context.identity.apiKey",
+                "authorizer-principal-id" : "$context.authorizer.principalId",
+                "caller" : "$context.identity.caller",
+                "cognito-authentication-provider" : "$context.identity.cognitoAuthenticationProvider",
+                "cognito-authentication-type" : "$context.identity.cognitoAuthenticationType",
+                "cognito-identity-id" : "$context.identity.cognitoIdentityId",
+                "cognito-identity-pool-id" : "$context.identity.cognitoIdentityPoolId",
+                "http-method" : "$context.httpMethod",
+                "stage" : "$context.stage",
+                "source-ip" : "$context.identity.sourceIp",
+                "user" : "$context.identity.user",
+                "user-agent" : "$context.identity.userAgent",
+                "user-arn" : "$context.identity.userArn",
+                "request-id" : "$context.requestId",
+                "resource-id" : "$context.resourceId",
+                "resource-path" : "$context.resourcePath"
+                }
+            }
+
+        TimeoutInMillis: 29000
+        Type: "AWS"
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:${LambdaFunction2}/invocations"
+
+  ApiGatewayMethod3:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      RestApiId: !Ref ApiGatewayRestApi
+      ResourceId: "s7u1ot"
+      HttpMethod: "OPTIONS"
+      AuthorizationType: "NONE"
+      ApiKeyRequired: false
+      RequestParameters: {}
+      MethodResponses:
+        - ResponseModels:
+            "application/json": "Empty"
+          ResponseParameters:
+            "method.response.header.Access-Control-Allow-Headers": false
+            "method.response.header.Access-Control-Allow-Methods": false
+            "method.response.header.Access-Control-Allow-Origin": false
+          StatusCode: "200"
+      Integration:
+        CacheNamespace: "s7u1ot"
+        IntegrationResponses:
+          - ResponseParameters:
+              "method.response.header.Access-Control-Allow-Headers": "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              "method.response.header.Access-Control-Allow-Methods": "'GET,OPTIONS'"
+              "method.response.header.Access-Control-Allow-Origin": "'*'"
+            StatusCode: "200"
+        PassthroughBehavior: "WHEN_NO_MATCH"
+        RequestTemplates:
+          "application/json": '{"statusCode": 200}'
+        TimeoutInMillis: 29000
+        Type: "MOCK"
+
+  ApiGatewayMethod4:
+    Type: "AWS::ApiGateway::Method"
+    Properties:
+      RestApiId: !Ref ApiGatewayRestApi
+      ResourceId: "irdwuc"
+      HttpMethod: "PUT"
+      AuthorizationType: "NONE"
+      ApiKeyRequired: false
+      RequestParameters:
+        "method.request.path.bucket": true
+        "method.request.path.filename": true
+      MethodResponses:
+        - ResponseModels:
+            "application/json": "Empty"
+          ResponseParameters:
+            "method.response.header.Access-Control-Allow-Origin": false
+          StatusCode: "200"
+      Integration:
+        CacheNamespace: "irdwuc"
+        Credentials: !Sub "arn:aws:iam::${AWS::AccountId}:role/apigw-sample-1"
+        IntegrationHttpMethod: "PUT"
+        IntegrationResponses:
+          - ResponseParameters:
+              "method.response.header.Access-Control-Allow-Origin": "'*'"
+            StatusCode: "200"
+        PassthroughBehavior: "WHEN_NO_MATCH"
+        RequestParameters:
+          "integration.request.path.bucket": "method.request.path.bucket"
+          "integration.request.path.key": "method.request.path.filename"
+        TimeoutInMillis: 29000
+        Type: "AWS"
+        Uri: !Sub "arn:aws:apigateway:${AWS::Region}:s3:path/{bucket}/{key}"
+
+  OpenSearchServiceDomain:
+    Type: "AWS::OpenSearchService::Domain"
+    Properties:
+      DomainName: "photos"
+      EngineVersion: "OpenSearch_2.9"
+      ClusterConfig:
+        # ColdStorageOptions:
+        #   Enabled: false
+        DedicatedMasterEnabled: false
+        InstanceCount: 1
+        InstanceType: "t3.small.search"
+        ZoneAwarenessEnabled: false
+        WarmEnabled: false
+      AccessPolicies:
+        {
+          "Version": "2012-10-17",
+          "Statement":
+            [
+              {
+                "Effect": "Allow",
+                "Principal": { "AWS": "*" },
+                "Action": "es:*",
+                "Resource": "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/photos/*",
+              },
+            ],
+        }
+      SnapshotOptions: {}
+      snapshot_options: {}
+      EncryptionAtRestOptions:
+        Enabled: true
+        KmsKeyId: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:key/a97c782b-8f33-4e3d-bda4-29304802d34d"
+      NodeToNodeEncryptionOptions:
+        Enabled: true
+      AdvancedOptions:
+        "indices.fielddata.cache.size": "20"
+        "indices.query.bool.max_clause_count": "1024"
+        override_main_response_version: "false"
+        "rest.action.multi.allow_explicit_index": "true"
+      EBSOptions:
+        EBSEnabled: true
+        VolumeType: "gp3"
+        VolumeSize: 100
+        Iops: 3000
+        Throughput: 125
+      CognitoOptions:
+        Enabled: false
+      DomainEndpointOptions:
+        EnforceHTTPS: true
+        TLSSecurityPolicy: "Policy-Min-TLS-1-0-2019-07"
+        CustomEndpointEnabled: false
+      AdvancedSecurityOptions:
+        Enabled: true
+        InternalUserDatabaseEnabled: false
+        AnonymousAuthEnabled: false
+
+  # CodePipelinePipeline:
+  #   Type: "AWS::CodePipeline::Pipeline"
+  #   Properties:
+  #     Name: "P1"
+  #     RoleArn: !GetAtt IAMRole5.Arn
+  #     ArtifactStore:
+  #       Location: !Ref S3Bucket
+  #       Type: "S3"
+  #     Stages:
+  #       - Name: "Source"
+  #         Actions:
+  #           - Name: "Source"
+  #             ActionTypeId:
+  #               Category: "Source"
+  #               Owner: "AWS"
+  #               Provider: "CodeStarSourceConnection"
+  #               Version: "1"
+  #             Configuration:
+  #               BranchName: "lambda"
+  #               ConnectionArn: !Sub "arn:aws:codestar-connections:${AWS::Region}:${AWS::AccountId}:connection/204f833a-f671-4e56-a9ef-c6f886608b01"
+  #               DetectChanges: "true"
+  #               FullRepositoryId: "Nahemah1022/cloud-computing-hw2"
+  #               OutputArtifactFormat: "CODE_ZIP"
+  #             OutputArtifacts:
+  #               - Name: "SourceArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "SourceVariables"
+  #             RunOrder: 1
+  #       - Name: "Build"
+  #         Actions:
+  #           - Name: "Build"
+  #             ActionTypeId:
+  #               Category: "Build"
+  #               Owner: "AWS"
+  #               Provider: "CodeBuild"
+  #               Version: "1"
+  #             Configuration:
+  #               ProjectName: !Ref CodeBuildProject2
+  #             InputArtifacts:
+  #               - Name: "SourceArtifact"
+  #             OutputArtifacts:
+  #               - Name: "BuildArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "BuildVariables"
+  #             RunOrder: 1
+  #       - Name: "DeployLambda"
+  #         Actions:
+  #           - Name: "deploy-lambda"
+  #             ActionTypeId:
+  #               Category: "Build"
+  #               Owner: "AWS"
+  #               Provider: "CodeBuild"
+  #               Version: "1"
+  #             Configuration:
+  #               ProjectName: !Ref IAMRole3
+  #             InputArtifacts:
+  #               - Name: "BuildArtifact"
+  #             Region: !Ref AWS::Region
+  #             RunOrder: 1
+
+  # CodePipelinePipeline2:
+  #   Type: "AWS::CodePipeline::Pipeline"
+  #   Properties:
+  #     Name: "P2"
+  #     RoleArn: !GetAtt IAMRole4.Arn
+  #     ArtifactStore:
+  #       Location: !Ref S3Bucket
+  #       Type: "S3"
+  #     Stages:
+  #       - Name: "Source"
+  #         Actions:
+  #           - Name: "Source"
+  #             ActionTypeId:
+  #               Category: "Source"
+  #               Owner: "AWS"
+  #               Provider: "CodeStarSourceConnection"
+  #               Version: "1"
+  #             Configuration:
+  #               BranchName: "frontend"
+  #               ConnectionArn: !Sub "arn:aws:codestar-connections:${AWS::Region}:${AWS::AccountId}:connection/204f833a-f671-4e56-a9ef-c6f886608b01"
+  #               DetectChanges: "true"
+  #               FullRepositoryId: "Nahemah1022/cloud-computing-hw2"
+  #               OutputArtifactFormat: "CODE_ZIP"
+  #             OutputArtifacts:
+  #               - Name: "SourceArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "SourceVariables"
+  #             RunOrder: 1
+  #       - Name: "Build"
+  #         Actions:
+  #           - Name: "Build"
+  #             ActionTypeId:
+  #               Category: "Build"
+  #               Owner: "AWS"
+  #               Provider: "CodeBuild"
+  #               Version: "1"
+  #             Configuration:
+  #               ProjectName: !Ref CodeBuildProject3
+  #             InputArtifacts:
+  #               - Name: "SourceArtifact"
+  #             OutputArtifacts:
+  #               - Name: "BuildArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "BuildVariables"
+  #             RunOrder: 1
+  #       - Name: "Deploy"
+  #         Actions:
+  #           - Name: "Deploy"
+  #             ActionTypeId:
+  #               Category: "Deploy"
+  #               Owner: "AWS"
+  #               Provider: "S3"
+  #               Version: "1"
+  #             Configuration:
+  #               BucketName: !Ref S3Bucket3
+  #               Extract: "true"
+  #             InputArtifacts:
+  #               - Name: "BuildArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "DeployVariables"
+  #             RunOrder: 1
+
+  # CodeBuildProject:
+  #   Type: "AWS::CodeBuild::Project"
+  #   Properties:
+  #     Name: "lambda-deploy"
+  #     Source:
+  #       BuildSpec: "lambdadeploy.yml"
+  #       InsecureSsl: false
+  #       Type: "CODEPIPELINE"
+  #     Artifacts:
+  #       EncryptionDisabled: false
+  #       Name: "lambda-deploy"
+  #       Packaging: "NONE"
+  #       Type: "CODEPIPELINE"
+  #     Cache:
+  #       Type: "NO_CACHE"
+  #     Environment:
+  #       ComputeType: "BUILD_GENERAL1_SMALL"
+  #       Image: "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+  #       ImagePullCredentialsType: "CODEBUILD"
+  #       PrivilegedMode: false
+  #       Type: "LINUX_CONTAINER"
+  #     ServiceRole: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/lambda-deploy"
+  #     TimeoutInMinutes: 60
+  #     QueuedTimeoutInMinutes: 480
+  #     EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
+  #     BadgeEnabled: false
+  #     LogsConfig:
+  #       CloudWatchLogs:
+  #         Status: "ENABLED"
+  #       S3Logs:
+  #         Status: "DISABLED"
+  #         EncryptionDisabled: false
+  #     Visibility: "PRIVATE"
+
+  # CodeBuildProject2:
+  #   Type: "AWS::CodeBuild::Project"
+  #   Properties:
+  #     Name: "lambda-app"
+  #     Source:
+  #       BuildSpec: "lambdaspec.yml"
+  #       InsecureSsl: false
+  #       Type: "CODEPIPELINE"
+  #     Artifacts:
+  #       EncryptionDisabled: false
+  #       Name: "lambda-app"
+  #       Packaging: "NONE"
+  #       Type: "CODEPIPELINE"
+  #     Cache:
+  #       Type: "NO_CACHE"
+  #     Environment:
+  #       ComputeType: "BUILD_GENERAL1_SMALL"
+  #       Image: "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+  #       ImagePullCredentialsType: "CODEBUILD"
+  #       PrivilegedMode: false
+  #       Type: "LINUX_CONTAINER"
+  #     ServiceRole: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/codebuild-lambda-app-service-role"
+  #     TimeoutInMinutes: 15
+  #     QueuedTimeoutInMinutes: 480
+  #     EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
+  #     BadgeEnabled: false
+  #     LogsConfig:
+  #       CloudWatchLogs:
+  #         Status: "ENABLED"
+  #       S3Logs:
+  #         Status: "DISABLED"
+  #         EncryptionDisabled: false
+  #     Visibility: "PRIVATE"
+
+  # CodeBuildProject3:
+  #   Type: "AWS::CodeBuild::Project"
+  #   Properties:
+  #     Name: "front-app"
+  #     Source:
+  #       BuildSpec: "frontendspec.yml"
+  #       InsecureSsl: false
+  #       Type: "CODEPIPELINE"
+  #     Artifacts:
+  #       EncryptionDisabled: false
+  #       Name: "front-app"
+  #       Packaging: "NONE"
+  #       Type: "CODEPIPELINE"
+  #     Cache:
+  #       Type: "NO_CACHE"
+  #     Environment:
+  #       ComputeType: "BUILD_GENERAL1_SMALL"
+  #       Image: "aws/codebuild/amazonlinux2-x86_64-standard:4.0-22.06.30"
+  #       ImagePullCredentialsType: "CODEBUILD"
+  #       PrivilegedMode: false
+  #       Type: "LINUX_CONTAINER"
+  #     ServiceRole: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/codebuild-front-react-app-service-role"
+  #     TimeoutInMinutes: 15
+  #     QueuedTimeoutInMinutes: 480
+  #     EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
+  #     BadgeEnabled: false
+  #     LogsConfig:
+  #       CloudWatchLogs:
+  #         Status: "ENABLED"
+  #       S3Logs:
+  #         Status: "DISABLED"
+  #         EncryptionDisabled: false
+  #     Visibility: "PRIVATE"

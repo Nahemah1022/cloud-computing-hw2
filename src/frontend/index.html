@@ -2,26 +2,34 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>chat</title>
-
-    <link rel="stylesheet" href="style.css" type="text/css">
-    <script type="text/javascript" src="chat.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Outstanding Album</title>
+    
+    <link rel="stylesheet" href="style.css">
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script type="text/javascript" src="main.js"></script>
 </head>
 <body>
-    <div class="all">
-        <div class="chat_main">
-            <div class="chat_div">
-                <ul id="chat_ul" class="chat_content"></ul>
+    <h1>Outstanding Album</h1>
+    <div class="main">
+        <div class="left">
+            <h2>Search Photos</h2>
+            <div class="search_bar">
+                <input type="text" placeholder="Your Query" id="query_txt">
+                <input type="button" value="Send" id="query_btn">
+                <input type="button" value="Speak" id="speak_btn">
             </div>
+            <div class="gallery">
 
-            <div class="send_message">
-                <form>
-                    <input type="text" placeholder="please input message" id="send_txt">
-                    <input type="button" value="send" id="send_btn">
-                    <input id="hiddenText" type="text" style="display:none" />
-                </form>
+            </div>
+        </div>
+        <div class="right">
+            <h2>Upload Photos</h2>
+            <div class="upload-inputs">
+                <input type="file" placeholder="Your Files" id="upload_files">
+                <input type="text" placeholder="Custom Labels (separate by ',')" id="custom-labels">
+                <input type="button" value="Upload" id="submit_btn">
             </div>
         </div>
     </div>

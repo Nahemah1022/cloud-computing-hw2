@@ -3,99 +3,56 @@ Metadata:
   Generator: "former2"
 Description: ""
 Resources:
-  IAMRole:
-    Type: "AWS::IAM::Role"
-    Properties:
-      Path: "/service-role/"
-      RoleName: "codebuild-front-react-app-service-role"
-      AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
-      MaxSessionDuration: 3600
-      ManagedPolicyArns:
-        - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/CodeBuildBasePolicy-${CodeBuildProject3}-${AWS::Region}"
+  # IAMRole:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: "codebuild-front-react-app-service-role"
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/CodeBuildBasePolicy-${CodeBuildProject3}-${AWS::Region}"
 
-  IAMRole2:
-    Type: "AWS::IAM::Role"
-    Properties:
-      Path: "/service-role/"
-      RoleName: !Sub "codebuild-${CodeBuildProject2}-service-role"
-      AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
-      MaxSessionDuration: 3600
-      ManagedPolicyArns:
-        - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/CodeBuildBasePolicy-${CodeBuildProject2}-${AWS::Region}"
+  # IAMRole2:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: !Sub "codebuild-${CodeBuildProject2}-service-role"
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/CodeBuildBasePolicy-${CodeBuildProject2}-${AWS::Region}"
 
-  IAMRole3:
-    Type: "AWS::IAM::Role"
-    Properties:
-      Path: "/service-role/"
-      RoleName: !Ref CodeBuildProject
-      AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
-      MaxSessionDuration: 3600
-      ManagedPolicyArns:
-        - "arn:aws:iam::aws:policy/AWSLambda_FullAccess"
-        - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/CodeBuildBasePolicy-${CodeBuildProject}-${AWS::Region}"
+  # IAMRole3:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: !Ref CodeBuildProject
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codebuild.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - "arn:aws:iam::aws:policy/AWSLambda_FullAccess"
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/CodeBuildBasePolicy-${CodeBuildProject}-${AWS::Region}"
 
-  IAMRole4:
-    Type: "AWS::IAM::Role"
-    Properties:
-      Path: "/service-role/"
-      RoleName: !Sub "AWSCodePipelineServiceRole-${AWS::Region}-P2"
-      AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
-      MaxSessionDuration: 3600
-      ManagedPolicyArns:
-        - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/AWSCodePipelineServiceRole-${AWS::Region}-P2"
+  # IAMRole4:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: !Sub "AWSCodePipelineServiceRole-${AWS::Region}-P2"
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/AWSCodePipelineServiceRole-${AWS::Region}-P2"
 
-  IAMRole5:
-    Type: "AWS::IAM::Role"
-    Properties:
-      Path: "/service-role/"
-      RoleName: !Sub "AWSCodePipelineServiceRole-${AWS::Region}-P1"
-      AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
-      MaxSessionDuration: 3600
-      ManagedPolicyArns:
-        - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/AWSCodePipelineServiceRole-${AWS::Region}-P1"
-
-  OpenSearchServiceDomain:
-    Type: "AWS::OpenSearchService::Domain"
-    Properties:
-      DomainName: "photos"
-      EngineVersion: "OpenSearch_2.9"
-      ClusterConfig:
-        ColdStorageOptions:
-          Enabled: false
-        DedicatedMasterEnabled: false
-        InstanceCount: 1
-        InstanceType: "t3.small.elasticsearch"
-        ZoneAwarenessEnabled: false
-        WarmEnabled: false
-      AccessPolicies: !Sub '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"*"},"Action":"es:*","Resource":"arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/photos/*"}]}'
-      SnapshotOptions: {}
-      snapshot_options: {}
-      EncryptionAtRestOptions:
-        Enabled: true
-        KmsKeyId: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:key/a97c782b-8f33-4e3d-bda4-29304802d34d"
-      NodeToNodeEncryptionOptions:
-        Enabled: true
-      AdvancedOptions:
-        "indices.fielddata.cache.size": "20"
-        "indices.query.bool.max_clause_count": "1024"
-        override_main_response_version: "false"
-        "rest.action.multi.allow_explicit_index": "true"
-      EBSOptions:
-        EBSEnabled: true
-        VolumeType: "gp3"
-        VolumeSize: 100
-        Iops: 3000
-        Throughput: 125
-      CognitoOptions:
-        Enabled: false
-      DomainEndpointOptions:
-        EnforceHTTPS: true
-        TLSSecurityPolicy: "Policy-Min-TLS-1-0-2019-07"
-        CustomEndpointEnabled: false
-      AdvancedSecurityOptions:
-        Enabled: true
-        InternalUserDatabaseEnabled: false
-        AnonymousAuthEnabled: false
+  # IAMRole5:
+  #   Type: "AWS::IAM::Role"
+  #   Properties:
+  #     Path: "/service-role/"
+  #     RoleName: !Sub "AWSCodePipelineServiceRole-${AWS::Region}-P1"
+  #     AssumeRolePolicyDocument: '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"Service":"codepipeline.amazonaws.com"},"Action":"sts:AssumeRole"}]}'
+  #     MaxSessionDuration: 3600
+  #     ManagedPolicyArns:
+  #       - !Sub "arn:aws:iam::${AWS::AccountId}:policy/service-role/AWSCodePipelineServiceRole-${AWS::Region}-P1"
 
   S3Bucket:
     Type: "AWS::S3::Bucket"
@@ -118,7 +75,7 @@ Resources:
   S3Bucket2:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: "b2-photo-uploads"
+      BucketName: "b2-photo-uploadsskjhvhoiasc"
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
@@ -145,7 +102,7 @@ Resources:
   S3Bucket3:
     Type: "AWS::S3::Bucket"
     Properties:
-      BucketName: "b1-frontend"
+      BucketName: "b1-frontendasdknlvlkdsvm;"
       BucketEncryption:
         ServerSideEncryptionConfiguration:
           - ServerSideEncryptionByDefault:
@@ -474,14 +431,26 @@ Resources:
       DomainName: "photos"
       EngineVersion: "OpenSearch_2.9"
       ClusterConfig:
-        ColdStorageOptions:
-          Enabled: false
+        # ColdStorageOptions:
+        #   Enabled: false
         DedicatedMasterEnabled: false
         InstanceCount: 1
-        InstanceType: "t3.small.elasticsearch"
+        InstanceType: "t3.small.search"
         ZoneAwarenessEnabled: false
         WarmEnabled: false
-      AccessPolicies: !Sub '{"Version":"2012-10-17","Statement":[{"Effect":"Allow","Principal":{"AWS":"*"},"Action":"es:*","Resource":"arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/photos/*"}]}'
+      AccessPolicies:
+        {
+          "Version": "2012-10-17",
+          "Statement":
+            [
+              {
+                "Effect": "Allow",
+                "Principal": { "AWS": "*" },
+                "Action": "es:*",
+                "Resource": "arn:aws:es:${AWS::Region}:${AWS::AccountId}:domain/photos/*",
+              },
+            ],
+        }
       SnapshotOptions: {}
       snapshot_options: {}
       EncryptionAtRestOptions:
@@ -511,226 +480,226 @@ Resources:
         InternalUserDatabaseEnabled: false
         AnonymousAuthEnabled: false
 
-  CodePipelinePipeline:
-    Type: "AWS::CodePipeline::Pipeline"
-    Properties:
-      Name: "P1"
-      RoleArn: !GetAtt IAMRole5.Arn
-      ArtifactStore:
-        Location: !Ref S3Bucket
-        Type: "S3"
-      Stages:
-        - Name: "Source"
-          Actions:
-            - Name: "Source"
-              ActionTypeId:
-                Category: "Source"
-                Owner: "AWS"
-                Provider: "CodeStarSourceConnection"
-                Version: "1"
-              Configuration:
-                BranchName: "lambda"
-                ConnectionArn: !Sub "arn:aws:codestar-connections:${AWS::Region}:${AWS::AccountId}:connection/204f833a-f671-4e56-a9ef-c6f886608b01"
-                DetectChanges: "true"
-                FullRepositoryId: "Nahemah1022/cloud-computing-hw2"
-                OutputArtifactFormat: "CODE_ZIP"
-              OutputArtifacts:
-                - Name: "SourceArtifact"
-              Region: !Ref AWS::Region
-              Namespace: "SourceVariables"
-              RunOrder: 1
-        - Name: "Build"
-          Actions:
-            - Name: "Build"
-              ActionTypeId:
-                Category: "Build"
-                Owner: "AWS"
-                Provider: "CodeBuild"
-                Version: "1"
-              Configuration:
-                ProjectName: !Ref CodeBuildProject2
-              InputArtifacts:
-                - Name: "SourceArtifact"
-              OutputArtifacts:
-                - Name: "BuildArtifact"
-              Region: !Ref AWS::Region
-              Namespace: "BuildVariables"
-              RunOrder: 1
-        - Name: "DeployLambda"
-          Actions:
-            - Name: "deploy-lambda"
-              ActionTypeId:
-                Category: "Build"
-                Owner: "AWS"
-                Provider: "CodeBuild"
-                Version: "1"
-              Configuration:
-                ProjectName: !Ref IAMRole3
-              InputArtifacts:
-                - Name: "BuildArtifact"
-              Region: !Ref AWS::Region
-              RunOrder: 1
+  # CodePipelinePipeline:
+  #   Type: "AWS::CodePipeline::Pipeline"
+  #   Properties:
+  #     Name: "P1"
+  #     RoleArn: !GetAtt IAMRole5.Arn
+  #     ArtifactStore:
+  #       Location: !Ref S3Bucket
+  #       Type: "S3"
+  #     Stages:
+  #       - Name: "Source"
+  #         Actions:
+  #           - Name: "Source"
+  #             ActionTypeId:
+  #               Category: "Source"
+  #               Owner: "AWS"
+  #               Provider: "CodeStarSourceConnection"
+  #               Version: "1"
+  #             Configuration:
+  #               BranchName: "lambda"
+  #               ConnectionArn: !Sub "arn:aws:codestar-connections:${AWS::Region}:${AWS::AccountId}:connection/204f833a-f671-4e56-a9ef-c6f886608b01"
+  #               DetectChanges: "true"
+  #               FullRepositoryId: "Nahemah1022/cloud-computing-hw2"
+  #               OutputArtifactFormat: "CODE_ZIP"
+  #             OutputArtifacts:
+  #               - Name: "SourceArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "SourceVariables"
+  #             RunOrder: 1
+  #       - Name: "Build"
+  #         Actions:
+  #           - Name: "Build"
+  #             ActionTypeId:
+  #               Category: "Build"
+  #               Owner: "AWS"
+  #               Provider: "CodeBuild"
+  #               Version: "1"
+  #             Configuration:
+  #               ProjectName: !Ref CodeBuildProject2
+  #             InputArtifacts:
+  #               - Name: "SourceArtifact"
+  #             OutputArtifacts:
+  #               - Name: "BuildArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "BuildVariables"
+  #             RunOrder: 1
+  #       - Name: "DeployLambda"
+  #         Actions:
+  #           - Name: "deploy-lambda"
+  #             ActionTypeId:
+  #               Category: "Build"
+  #               Owner: "AWS"
+  #               Provider: "CodeBuild"
+  #               Version: "1"
+  #             Configuration:
+  #               ProjectName: !Ref IAMRole3
+  #             InputArtifacts:
+  #               - Name: "BuildArtifact"
+  #             Region: !Ref AWS::Region
+  #             RunOrder: 1
 
-  CodePipelinePipeline2:
-    Type: "AWS::CodePipeline::Pipeline"
-    Properties:
-      Name: "P2"
-      RoleArn: !GetAtt IAMRole4.Arn
-      ArtifactStore:
-        Location: !Ref S3Bucket
-        Type: "S3"
-      Stages:
-        - Name: "Source"
-          Actions:
-            - Name: "Source"
-              ActionTypeId:
-                Category: "Source"
-                Owner: "AWS"
-                Provider: "CodeStarSourceConnection"
-                Version: "1"
-              Configuration:
-                BranchName: "frontend"
-                ConnectionArn: !Sub "arn:aws:codestar-connections:${AWS::Region}:${AWS::AccountId}:connection/204f833a-f671-4e56-a9ef-c6f886608b01"
-                DetectChanges: "true"
-                FullRepositoryId: "Nahemah1022/cloud-computing-hw2"
-                OutputArtifactFormat: "CODE_ZIP"
-              OutputArtifacts:
-                - Name: "SourceArtifact"
-              Region: !Ref AWS::Region
-              Namespace: "SourceVariables"
-              RunOrder: 1
-        - Name: "Build"
-          Actions:
-            - Name: "Build"
-              ActionTypeId:
-                Category: "Build"
-                Owner: "AWS"
-                Provider: "CodeBuild"
-                Version: "1"
-              Configuration:
-                ProjectName: !Ref CodeBuildProject3
-              InputArtifacts:
-                - Name: "SourceArtifact"
-              OutputArtifacts:
-                - Name: "BuildArtifact"
-              Region: !Ref AWS::Region
-              Namespace: "BuildVariables"
-              RunOrder: 1
-        - Name: "Deploy"
-          Actions:
-            - Name: "Deploy"
-              ActionTypeId:
-                Category: "Deploy"
-                Owner: "AWS"
-                Provider: "S3"
-                Version: "1"
-              Configuration:
-                BucketName: !Ref S3Bucket3
-                Extract: "true"
-              InputArtifacts:
-                - Name: "BuildArtifact"
-              Region: !Ref AWS::Region
-              Namespace: "DeployVariables"
-              RunOrder: 1
+  # CodePipelinePipeline2:
+  #   Type: "AWS::CodePipeline::Pipeline"
+  #   Properties:
+  #     Name: "P2"
+  #     RoleArn: !GetAtt IAMRole4.Arn
+  #     ArtifactStore:
+  #       Location: !Ref S3Bucket
+  #       Type: "S3"
+  #     Stages:
+  #       - Name: "Source"
+  #         Actions:
+  #           - Name: "Source"
+  #             ActionTypeId:
+  #               Category: "Source"
+  #               Owner: "AWS"
+  #               Provider: "CodeStarSourceConnection"
+  #               Version: "1"
+  #             Configuration:
+  #               BranchName: "frontend"
+  #               ConnectionArn: !Sub "arn:aws:codestar-connections:${AWS::Region}:${AWS::AccountId}:connection/204f833a-f671-4e56-a9ef-c6f886608b01"
+  #               DetectChanges: "true"
+  #               FullRepositoryId: "Nahemah1022/cloud-computing-hw2"
+  #               OutputArtifactFormat: "CODE_ZIP"
+  #             OutputArtifacts:
+  #               - Name: "SourceArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "SourceVariables"
+  #             RunOrder: 1
+  #       - Name: "Build"
+  #         Actions:
+  #           - Name: "Build"
+  #             ActionTypeId:
+  #               Category: "Build"
+  #               Owner: "AWS"
+  #               Provider: "CodeBuild"
+  #               Version: "1"
+  #             Configuration:
+  #               ProjectName: !Ref CodeBuildProject3
+  #             InputArtifacts:
+  #               - Name: "SourceArtifact"
+  #             OutputArtifacts:
+  #               - Name: "BuildArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "BuildVariables"
+  #             RunOrder: 1
+  #       - Name: "Deploy"
+  #         Actions:
+  #           - Name: "Deploy"
+  #             ActionTypeId:
+  #               Category: "Deploy"
+  #               Owner: "AWS"
+  #               Provider: "S3"
+  #               Version: "1"
+  #             Configuration:
+  #               BucketName: !Ref S3Bucket3
+  #               Extract: "true"
+  #             InputArtifacts:
+  #               - Name: "BuildArtifact"
+  #             Region: !Ref AWS::Region
+  #             Namespace: "DeployVariables"
+  #             RunOrder: 1
 
-  CodeBuildProject:
-    Type: "AWS::CodeBuild::Project"
-    Properties:
-      Name: "lambda-deploy"
-      Source:
-        BuildSpec: "lambdadeploy.yml"
-        InsecureSsl: false
-        Type: "CODEPIPELINE"
-      Artifacts:
-        EncryptionDisabled: false
-        Name: "lambda-deploy"
-        Packaging: "NONE"
-        Type: "CODEPIPELINE"
-      Cache:
-        Type: "NO_CACHE"
-      Environment:
-        ComputeType: "BUILD_GENERAL1_SMALL"
-        Image: "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
-        ImagePullCredentialsType: "CODEBUILD"
-        PrivilegedMode: false
-        Type: "LINUX_CONTAINER"
-      ServiceRole: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/lambda-deploy"
-      TimeoutInMinutes: 60
-      QueuedTimeoutInMinutes: 480
-      EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
-      BadgeEnabled: false
-      LogsConfig:
-        CloudWatchLogs:
-          Status: "ENABLED"
-        S3Logs:
-          Status: "DISABLED"
-          EncryptionDisabled: false
-      Visibility: "PRIVATE"
+  # CodeBuildProject:
+  #   Type: "AWS::CodeBuild::Project"
+  #   Properties:
+  #     Name: "lambda-deploy"
+  #     Source:
+  #       BuildSpec: "lambdadeploy.yml"
+  #       InsecureSsl: false
+  #       Type: "CODEPIPELINE"
+  #     Artifacts:
+  #       EncryptionDisabled: false
+  #       Name: "lambda-deploy"
+  #       Packaging: "NONE"
+  #       Type: "CODEPIPELINE"
+  #     Cache:
+  #       Type: "NO_CACHE"
+  #     Environment:
+  #       ComputeType: "BUILD_GENERAL1_SMALL"
+  #       Image: "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+  #       ImagePullCredentialsType: "CODEBUILD"
+  #       PrivilegedMode: false
+  #       Type: "LINUX_CONTAINER"
+  #     ServiceRole: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/lambda-deploy"
+  #     TimeoutInMinutes: 60
+  #     QueuedTimeoutInMinutes: 480
+  #     EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
+  #     BadgeEnabled: false
+  #     LogsConfig:
+  #       CloudWatchLogs:
+  #         Status: "ENABLED"
+  #       S3Logs:
+  #         Status: "DISABLED"
+  #         EncryptionDisabled: false
+  #     Visibility: "PRIVATE"
 
-  CodeBuildProject2:
-    Type: "AWS::CodeBuild::Project"
-    Properties:
-      Name: "lambda-app"
-      Source:
-        BuildSpec: "lambdaspec.yml"
-        InsecureSsl: false
-        Type: "CODEPIPELINE"
-      Artifacts:
-        EncryptionDisabled: false
-        Name: "lambda-app"
-        Packaging: "NONE"
-        Type: "CODEPIPELINE"
-      Cache:
-        Type: "NO_CACHE"
-      Environment:
-        ComputeType: "BUILD_GENERAL1_SMALL"
-        Image: "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
-        ImagePullCredentialsType: "CODEBUILD"
-        PrivilegedMode: false
-        Type: "LINUX_CONTAINER"
-      ServiceRole: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/codebuild-lambda-app-service-role"
-      TimeoutInMinutes: 15
-      QueuedTimeoutInMinutes: 480
-      EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
-      BadgeEnabled: false
-      LogsConfig:
-        CloudWatchLogs:
-          Status: "ENABLED"
-        S3Logs:
-          Status: "DISABLED"
-          EncryptionDisabled: false
-      Visibility: "PRIVATE"
+  # CodeBuildProject2:
+  #   Type: "AWS::CodeBuild::Project"
+  #   Properties:
+  #     Name: "lambda-app"
+  #     Source:
+  #       BuildSpec: "lambdaspec.yml"
+  #       InsecureSsl: false
+  #       Type: "CODEPIPELINE"
+  #     Artifacts:
+  #       EncryptionDisabled: false
+  #       Name: "lambda-app"
+  #       Packaging: "NONE"
+  #       Type: "CODEPIPELINE"
+  #     Cache:
+  #       Type: "NO_CACHE"
+  #     Environment:
+  #       ComputeType: "BUILD_GENERAL1_SMALL"
+  #       Image: "aws/codebuild/amazonlinux2-x86_64-standard:4.0"
+  #       ImagePullCredentialsType: "CODEBUILD"
+  #       PrivilegedMode: false
+  #       Type: "LINUX_CONTAINER"
+  #     ServiceRole: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/codebuild-lambda-app-service-role"
+  #     TimeoutInMinutes: 15
+  #     QueuedTimeoutInMinutes: 480
+  #     EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
+  #     BadgeEnabled: false
+  #     LogsConfig:
+  #       CloudWatchLogs:
+  #         Status: "ENABLED"
+  #       S3Logs:
+  #         Status: "DISABLED"
+  #         EncryptionDisabled: false
+  #     Visibility: "PRIVATE"
 
-  CodeBuildProject3:
-    Type: "AWS::CodeBuild::Project"
-    Properties:
-      Name: "front-app"
-      Source:
-        BuildSpec: "frontendspec.yml"
-        InsecureSsl: false
-        Type: "CODEPIPELINE"
-      Artifacts:
-        EncryptionDisabled: false
-        Name: "front-app"
-        Packaging: "NONE"
-        Type: "CODEPIPELINE"
-      Cache:
-        Type: "NO_CACHE"
-      Environment:
-        ComputeType: "BUILD_GENERAL1_SMALL"
-        Image: "aws/codebuild/amazonlinux2-x86_64-standard:4.0-22.06.30"
-        ImagePullCredentialsType: "CODEBUILD"
-        PrivilegedMode: false
-        Type: "LINUX_CONTAINER"
-      ServiceRole: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/codebuild-front-react-app-service-role"
-      TimeoutInMinutes: 15
-      QueuedTimeoutInMinutes: 480
-      EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
-      BadgeEnabled: false
-      LogsConfig:
-        CloudWatchLogs:
-          Status: "ENABLED"
-        S3Logs:
-          Status: "DISABLED"
-          EncryptionDisabled: false
-      Visibility: "PRIVATE"
+  # CodeBuildProject3:
+  #   Type: "AWS::CodeBuild::Project"
+  #   Properties:
+  #     Name: "front-app"
+  #     Source:
+  #       BuildSpec: "frontendspec.yml"
+  #       InsecureSsl: false
+  #       Type: "CODEPIPELINE"
+  #     Artifacts:
+  #       EncryptionDisabled: false
+  #       Name: "front-app"
+  #       Packaging: "NONE"
+  #       Type: "CODEPIPELINE"
+  #     Cache:
+  #       Type: "NO_CACHE"
+  #     Environment:
+  #       ComputeType: "BUILD_GENERAL1_SMALL"
+  #       Image: "aws/codebuild/amazonlinux2-x86_64-standard:4.0-22.06.30"
+  #       ImagePullCredentialsType: "CODEBUILD"
+  #       PrivilegedMode: false
+  #       Type: "LINUX_CONTAINER"
+  #     ServiceRole: !Sub "arn:aws:iam::${AWS::AccountId}:role/service-role/codebuild-front-react-app-service-role"
+  #     TimeoutInMinutes: 15
+  #     QueuedTimeoutInMinutes: 480
+  #     EncryptionKey: !Sub "arn:aws:kms:${AWS::Region}:${AWS::AccountId}:alias/aws/s3"
+  #     BadgeEnabled: false
+  #     LogsConfig:
+  #       CloudWatchLogs:
+  #         Status: "ENABLED"
+  #       S3Logs:
+  #         Status: "DISABLED"
+  #         EncryptionDisabled: false
+  #     Visibility: "PRIVATE"

@@ -5,7 +5,7 @@ var API_KEY = "0wwl2gc2cI4JAojQeWcFMjvoX7eCW7KoLUKPoy10"
 window.SpeechRecognition = window.webkitSpeechRecognition || window.SpeechRecognition;
 const synth = window.speechSynthesis;
 const recognition = new SpeechRecognition();
-recognition.continuous = true;
+recognition.continuous = false;
 
 recognition.onerror = (e) => {
     console.log("something went wrong");
@@ -14,6 +14,7 @@ recognition.onerror = (e) => {
 
 recognition.onend = () => {
     console.log("ended");
+    $('#query_btn').click()
 };
   
 window.onload = function () {

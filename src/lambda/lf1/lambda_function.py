@@ -12,6 +12,7 @@ def lambda_handler(event, context):
     key = event['Records'][0]['s3']['object']['key']
     IMAGE_URL = f"https://{bucket}.s3.{awsRegion}.amazonaws.com/{key}"
     print(IMAGE_URL)
+    print(IMAGE_URL)
     labels = recognize_labels(bucket, key)
     index_photo(bucket, key, IMAGE_URL, labels)
     
